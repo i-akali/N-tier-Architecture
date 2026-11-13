@@ -1,15 +1,25 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+package coms3107;
+
+import java.io.File;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        if(args.length!= 3)
+        {
+            System.err.println("Usage: java coms3107.Main parking.csv properties.csv population.txt");
+            return;
         }
+
+        for(String n: args)
+        {
+            File data = new File(n);
+            if(!data.exists() || !data.canRead() || !data.isFile())
+            {
+                System.err.println("File not found or not readable: " + n);
+                return;
+            }
+        }
+
     }
 }
