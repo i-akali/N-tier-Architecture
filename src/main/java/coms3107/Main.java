@@ -1,4 +1,5 @@
 package coms3107;
+import coms3107.data.*;
 
 import java.io.File;
 
@@ -20,6 +21,10 @@ public class Main {
                 return;
             }
         }
+
+        ParkingReader parkingReaderReader = new ParkingReader(args[0]);
+        PopulationReader populationReader = new PopulationReader(args[1]);
+        PropertyReader propertyReader = new PropertyReader(args[2]);
 
     }
 }
