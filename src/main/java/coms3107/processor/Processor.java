@@ -30,7 +30,7 @@ public class Processor {
         Map<String, Double> totalFines = new HashMap<>();
 
         for(ParkingViolation n: violations) {
-            if(n.getZip().length() < 5 || !n.getStatePlate().equals("PA") || n.getFine() == 0)
+            if(n.getZip().length() < 5 || !n.getStatePlate().equals("PA"))
             {
                 continue;
             }
@@ -42,7 +42,7 @@ public class Processor {
 
         for(String zip: totalFines.keySet()){
 
-            if(populations.get(zip) == null || populations.get(zip) == 0) {
+            if(totalFines.get(zip) == 0 || populations.get(zip) == null || populations.get(zip) == 0) {
                 continue;
             }
             finesPerCapita.put(zip, totalFines.get(zip)/populations.get(zip));
@@ -58,9 +58,10 @@ public class Processor {
 
         for(Property property: properties)
         {
+            Double value = strategy.getValue(property);
             if(!property.getZip().equals(zip)){continue;}
-            if(strategy.getValue(property) == null || strategy.getValue(property) == 0){continue;}
-            sum += strategy.getValue(property);
+            if(value == null || value <= 0){continue;}
+            sum += value;
             count++;
         }
 
@@ -68,5 +69,13 @@ public class Processor {
 
         return (int)Math.round(sum/count);
 
+    }
+
+    public int getAverageMarketValue(String zip){
+        return getAverage(zip, new MarketValueStrategy());
+    }
+
+    public int getAverageLivableArea(String zip){
+        return getAverage(zip, new LivableAreaStrategy());
     }
 }
