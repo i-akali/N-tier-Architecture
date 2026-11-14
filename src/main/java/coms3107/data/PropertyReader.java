@@ -28,6 +28,9 @@ public class PropertyReader {
                     case "zip_code" -> zp = i;
                 }
             }
+            if (mv == -1 || la == -1 || zp == -1) {
+                throw new IOException("Properties file is missing a required column (market_value, total_livable_area, or zip_code)");
+            }
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
                 if (line.isEmpty()) {
