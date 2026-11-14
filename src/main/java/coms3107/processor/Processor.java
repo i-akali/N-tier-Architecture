@@ -24,4 +24,30 @@ public class Processor {
         for(int n:  populations.values()) {sum += n;}
         return sum;
     }
+
+    public Map<String, Double> getFinesPerCapita(){
+
+        Map<String, Double> totalFines = new HashMap<>();
+
+        for(ParkingViolation n: violations) {
+            if(n.getZip().length() < 5 || !n.getStatePlate().equals("PA") || n.getFine() == 0)
+            {
+                continue;
+            }
+            totalFines.put(n.getZip(),
+                    totalFines.getOrDefault(n.getZip(), 0.0) + n.getFine());
+        }
+
+        Map<String, Double> finesPerCapita = new TreeMap<>();
+
+        for(String zip: totalFines.keySet()){
+
+            if(populations.get(zip) == null || populations.get(zip) == 0) {
+                continue;
+            }
+            finesPerCapita.put(zip, totalFines.get(zip)/populations.get(zip));
+        }
+
+        return finesPerCapita;
+    }
 }
