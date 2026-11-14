@@ -1,10 +1,13 @@
 package coms3107;
 import coms3107.data.*;
+import coms3107.processor.Processor;
+import coms3107.ui.UI;
 
 import java.io.File;
+import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args){
 
         if(args.length!= 3)
         {
@@ -22,9 +25,20 @@ public class Main {
             }
         }
 
-        ParkingReader parkingReaderReader = new ParkingReader(args[0]);
-        PopulationReader populationReader = new PopulationReader(args[1]);
-        PropertyReader propertyReader = new PropertyReader(args[2]);
+        try{
+            ParkingReader parkingReader = new ParkingReader(args[0]);
+            PropertyReader propertyReader = new PropertyReader(args[1]);
+            PopulationReader populationReader = new PopulationReader(args[2]);
+
+            Processor processor = new Processor(parkingReader, populationReader,
+                    propertyReader);
+
+            UI ui = new UI(processor);
+            ui.start();
+        }
+        catch(IOException e){
+            System.err.println("Error reading files: " + e.getMessage());
+        }
 
     }
 }
