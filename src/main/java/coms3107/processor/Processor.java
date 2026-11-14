@@ -50,4 +50,23 @@ public class Processor {
 
         return finesPerCapita;
     }
+
+    private int getAverage(String zip, PropertyValueStrategy strategy){
+
+        double sum = 0;
+        int count = 0;
+
+        for(Property property: properties)
+        {
+            if(!property.getZip().equals(zip)){continue;}
+            if(strategy.getValue(property) == null || strategy.getValue(property) == 0){continue;}
+            sum += strategy.getValue(property);
+            count++;
+        }
+
+        if(count == 0){return 0;}
+
+        return (int)Math.round(sum/count);
+
+    }
 }
